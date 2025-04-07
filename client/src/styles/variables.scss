@@ -1,0 +1,28 @@
+// Pearl Aqua Theme
+$primary: #88D8C0;
+$secondary: #F5F7FA;
+$dark: #2C3E50;
+$accent: #FF6B6B;
+$text-light: #333333;
+$text-dark: #F5F5F5;
+
+:root {
+  --primary: #{$primary};
+  --secondary: #{$secondary};
+  --dark: #{$dark};
+  --accent: #{$accent};
+  --text: #{$text-light};
+  --card-bg: white;
+  --sidebar-bg: white;
+  --navbar-bg: white;
+}
+
+[data-theme="dark"] {
+  --primary: #6bc4ad;
+  --secondary: #1A1A1A;
+  --dark: #E0E0E0;
+  --text: #{$text-dark};
+  --card-bg: #2D2D2D;
+  --sidebar-bg: #252525;
+  --navbar-bg: #252525;
+}

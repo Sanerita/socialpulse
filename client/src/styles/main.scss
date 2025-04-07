@@ -1,0 +1,81 @@
+@import './variables';
+
+body {
+  background-color: var(--secondary);
+  color: var(--text);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  transition: all 0.3s ease;
+}
+
+// Layout
+.main-content {
+  padding: 20px;
+  margin-left: 250px;
+  @media (max-width: 992px) {
+    margin-left: 0;
+  }
+}
+
+// Navbar
+.navbar {
+  background-color: var(--navbar-bg) !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.navbar-brand {
+  font-weight: 600;
+  .icon {
+    color: var(--primary);
+  }
+}
+
+// Sidebar
+.sidebar {
+  background-color: var(--sidebar-bg);
+  height: 100vh;
+  width: 250px;
+  position: fixed;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  z-index: 1000;
+  @media (max-width: 992px) {
+    left: -250px;
+    &.active {
+      left: 0;
+    }
+  }
+}
+
+// Cards
+.card {
+  background-color: var(--card-bg);
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s;
+  &:hover {
+    transform: translateY(-5px);
+  }
+}
+
+// Buttons
+.btn-primary {
+  background-color: var(--primary);
+  border: none;
+  &:hover {
+    background-color: darken($primary, 10%);
+  }
+}
+
+// Mobile Menu Toggle
+.mobile-menu-toggle {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  z-index: 1100;
+  display: none;
+  @media (max-width: 992px) {
+    display: block;
+  }
+}
