@@ -79,3 +79,34 @@ body {
     display: block;
   }
 }
+
+.profile-page {
+  .cover-photo {
+    border-radius: 0 0 10px 10px;
+    position: relative;
+    &:after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, transparent 100%);
+    }
+  }
+  
+  .profile-actions {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    z-index: 10;
+  }
+  
+  .social-btn {
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

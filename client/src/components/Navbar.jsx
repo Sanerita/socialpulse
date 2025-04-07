@@ -1,8 +1,16 @@
-import ThemeToggle from './ThemeToggle'; // Adjust path if needed
 import { useState } from 'react';
-import { Button, Dropdown } from 'react-bootstrap';
+import { Button, Dropdown, Nav } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell, faEnvelope, faMagic, faUser, faCog, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { 
+  faBell, 
+  faEnvelope, 
+  faMagic, 
+  faUser, 
+  faCog, 
+  faSignOutAlt 
+} from '@fortawesome/free-solid-svg-icons';
+import { NavLink } from 'react-router-dom';
+import ThemeToggle from './ThemeToggle';
 
 export default function Navbar() {
   const [showNotifications, setShowNotifications] = useState(false);
@@ -88,11 +96,11 @@ export default function Navbar() {
             </Dropdown.Toggle>
             
             <Dropdown.Menu className="dropdown-menu-end">
-              <Dropdown.Item>
+              <Dropdown.Item as={NavLink} to="/profile">
                 <FontAwesomeIcon icon={faUser} className="me-2" />
                 Profile
               </Dropdown.Item>
-              <Dropdown.Item>
+              <Dropdown.Item as={NavLink} to="/settings">
                 <FontAwesomeIcon icon={faCog} className="me-2" />
                 Settings
               </Dropdown.Item>
