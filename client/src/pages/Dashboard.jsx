@@ -6,7 +6,7 @@ import PostScheduler from '../components/PostScheduler';
 import AnalyticsChart from '../components/AnalyticsChart';
 import UGCFinder from '../components/UGCFinder';
 import RevenueTracker from '../components/RevenueTracker';
-import PlatformPerformance from '../components/PlatformPerformance';
+import PlatformPerformance from './PlatformPerformance';
 
 export default function Dashboard() {
   const [metrics, setMetrics] = useState({

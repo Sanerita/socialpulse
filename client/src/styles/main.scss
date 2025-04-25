@@ -359,3 +359,161 @@ body {
     }
   }
 }
+
+// Platform Performance Styles
+.platform-list {
+  .progress {
+    height: 8px;
+    border-radius: 4px;
+  }
+
+  .progress-bar {
+    transition: width 0.6s ease;
+  }
+}
+
+// Dashboard specific styles
+.dashboard-container {
+  padding: 1.5rem;
+  max-width: 1800px;
+  margin: 0 auto;
+  width: 100%;
+
+  @media (max-width: 992px) {
+    padding: 1rem;
+  }
+}
+
+.metric-card {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  }
+
+  .metric-title {
+    font-size: 1rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+
+  .metric-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 0.25rem;
+
+    .trend-up {
+      color: var(--success);
+      font-size: 1.5rem;
+      margin-left: 0.5rem;
+    }
+
+    .trend-down {
+      color: var(--danger);
+      font-size: 1.5rem;
+      margin-left: 0.5rem;
+    }
+  }
+
+  .metric-subtext {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+}
+
+@media (max-width: 768px) {
+  .metric-card {
+    .metric-value {
+      font-size: 1.75rem;
+    }
+  }
+}
+
+.login-page {
+  height: 100vh;
+  background-color: var(--secondary);
+  display: flex;
+  align-items: center;
+
+  .login-card {
+    border: none;
+    border-radius: 16px;
+    overflow: hidden;
+    max-width: 100%;
+    width: 100%;
+    margin: 0 auto;
+
+    .login-brand-col {
+      background-color: var(--primary);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+
+      .login-brand-content {
+        max-width: 80%;
+        text-align: center;
+
+        .brand-logo {
+          margin-bottom: 1.5rem;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+
+          svg {
+            margin-bottom: 1rem;
+          }
+
+          h1 {
+            font-weight: 700;
+            font-size: 2rem;
+          }
+        }
+
+        .brand-tagline {
+          font-size: 1rem;
+          opacity: 0.9;
+        }
+      }
+    }
+
+    .card-body {
+      padding: 2.5rem;
+
+      h2 {
+        font-weight: 700;
+        color: var(--text);
+      }
+
+      .form-control {
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+      }
+
+      .input-group-text {
+        background-color: var(--card-bg);
+        border-right: none;
+      }
+    }
+  }
+
+  // Responsive adjustments
+  @media (max-width: 768px) {
+    .login-card {
+      .login-brand-col {
+        display: none;
+      }
+
+      .card-body {
+        padding: 1.5rem;
+      }
+    }
+  }
+}

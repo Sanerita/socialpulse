@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase';
 import { useState, useEffect } from 'react';
@@ -10,9 +10,30 @@ import Settings from './pages/Settings';
 import Layout from './components/Layout';
 import Login from './pages/Login';
 import Loading from './components/Loading';
-import Register from './components/Register';
-import PasswordReset from './components/PasswordReset';
+import Register from './pages/Register'; 
+import PasswordReset from './pages/PasswordReset'; 
 import TermsOfService from './pages/TermsOfService';
+import Homepage from './pages/Homepage'; 
+
+// Custom route protection wrapper
+const ProtectedRoute = ({ user, children }) => {
+  const location = useLocation();
+  
+  if (!user) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+  
+  return children;
+};
+
+// Auth redirection wrapper
+const AuthRoute = ({ user, children }) => {
+  if (user) {
+    return <Navigate to="/dashboard" replace />;
+  }
+  
+  return children;
+};
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -33,38 +54,68 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <Layout user={user}>
-        <Routes>
+      <Routes>
+        {/* Public routes */}
+        <Route path="/" element={<Homepage />} />
+        <Route 
+          path="/login" 
+          element={
+            <AuthRoute user={user}>
+              <Login />
+            </AuthRoute>
+          } 
+        />
+        <Route path="/register" element={<Register />} />
+        <Route path="/reset-password" element={<PasswordReset />} />
+        <Route path="/terms" element={<TermsOfService />} />
+        
+        {/* Protected routes */}
+        <Route element={<Layout user={user} />}>
           <Route 
-            path="/" 
-            element={user ? <Dashboard /> : <Navigate to="/login" />} 
+            path="/dashboard" 
+            element={
+              <ProtectedRoute user={user}>
+                <Dashboard />
+              </ProtectedRoute>
+            } 
           />
           <Route 
             path="/scheduler" 
-            element={user ? <Scheduler /> : <Navigate to="/login" />} 
+            element={
+              <ProtectedRoute user={user}>
+                <Scheduler />
+              </ProtectedRoute>
+            } 
           />
           <Route 
             path="/analytics" 
-            element={user ? <Analytics /> : <Navigate to="/login" />} 
+            element={
+              <ProtectedRoute user={user}>
+                <Analytics />
+              </ProtectedRoute>
+            } 
           />
           <Route 
             path="/profile" 
-            element={user ? <ProfilePage /> : <Navigate to="/login" />} 
+            element={
+              <ProtectedRoute user={user}>
+                <ProfilePage />
+              </ProtectedRoute>
+            } 
           />
           <Route 
             path="/settings" 
-            element={user ? <Settings /> : <Navigate to="/login" />} 
+            element={
+              <ProtectedRoute user={user}>
+                <Settings />
+              </ProtectedRoute>
+            } 
           />
-          <Route 
-            path="/login" 
-            element={!user ? <Login /> : <Navigate to="/" />} 
-          />
-          <Route path="*" element={<Navigate to={user ? "/" : "/login"} />} />
-<Route path="/register" element={<Register />} /> 
-<Route path="/reset-password" element={<PasswordReset />} /> 
-<Route path="/terms" element={<TermsOfService />} />
-        </Routes>
-      </Layout>
+        </Route>
+        
+        {/* Catch-all route */}
+        <Route path="*" element={<Navigate to={user ? "/dashboard" : "/"} />} />
+      </Routes>
     </BrowserRouter>
   );
 }
