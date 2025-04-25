@@ -1,17 +1,17 @@
-const express = require('express');
+// socialpulse/index.js
+const functions = require('firebase-functions');
 const admin = require('firebase-admin');
+const express = require('express');
+
 const app = express();
 
 // Initialize Firebase
-admin.initializeApp({
-  credential: admin.credential.applicationDefault()
-});
+admin.initializeApp();
 
+// Express routes
 app.get('/', (req, res) => {
-  res.send('Standalone Express Server with Firebase');
+  res.send('SocialPulse API Running');
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+// Expose Express app as a single Cloud Function
+exports.api = functions.https.onRequest(app);
