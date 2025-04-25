@@ -15,7 +15,7 @@
   },
   "functions": [
     {
-      "source": "functions",  // Default codebase
+      "source": "functions",  
       "codebase": "default",
       "runtime": "nodejs18",
       "predeploy": [
@@ -24,7 +24,7 @@
       ]
     },
     {
-      "source": "socialpulse",  // SocialPulse codebase
+      "source": "socialpulse", 
       "codebase": "socialpulse",
       "runtime": "nodejs18",
       "predeploy": [
