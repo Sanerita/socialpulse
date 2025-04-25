@@ -10,6 +10,9 @@ import Settings from './pages/Settings';
 import Layout from './components/Layout';
 import Login from './pages/Login';
 import Loading from './components/Loading';
+import Register from './components/Register';
+import PasswordReset from './components/PasswordReset';
+import TermsOfService from './pages/TermsOfService';
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -57,6 +60,9 @@ export default function App() {
             element={!user ? <Login /> : <Navigate to="/" />} 
           />
           <Route path="*" element={<Navigate to={user ? "/" : "/login"} />} />
+<Route path="/register" element={<Register />} /> 
+<Route path="/reset-password" element={<PasswordReset />} /> 
+<Route path="/terms" element={<TermsOfService />} />
         </Routes>
       </Layout>
     </BrowserRouter>
