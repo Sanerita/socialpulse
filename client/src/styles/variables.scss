@@ -2,7 +2,12 @@
 $primary: #88D8C0;
 $secondary: #F5F7FA;
 $dark: #2C3E50;
+$light: #FFFFFF;
 $accent: #FF6B6B;
+$success: #4CAF50;
+$danger: #F44336;
+$warning: #FFC107;
+$info: #2196F3;
 $text-light: #333333;
 $text-dark: #F5F5F5;
 
@@ -10,19 +15,29 @@ $text-dark: #F5F5F5;
   --primary: #{$primary};
   --secondary: #{$secondary};
   --dark: #{$dark};
+  --light: #{$light};
   --accent: #{$accent};
+  --success: #{$success};
+  --danger: #{$danger};
+  --warning: #{$warning};
+  --info: #{$info};
   --text: #{$text-light};
-  --card-bg: white;
-  --sidebar-bg: white;
-  --navbar-bg: white;
+  --text-muted: #{rgba($text-light, 0.7)};
+  --card-bg: #{$light};
+  --sidebar-bg: #{$light};
+  --navbar-bg: #{$light};
+  --border-color: #{rgba($dark, 0.1)};
 }
 
 [data-theme="dark"] {
   --primary: #6bc4ad;
   --secondary: #1A1A1A;
   --dark: #E0E0E0;
+  --light: #2D2D2D;
   --text: #{$text-dark};
+  --text-muted: #{rgba($text-dark, 0.7)};
   --card-bg: #2D2D2D;
   --sidebar-bg: #252525;
   --navbar-bg: #252525;
+  --border-color: #{rgba($light, 0.1)};
 }

@@ -1,24 +1,33 @@
-import { Row, Col, Card, Table, Button } from 'react-bootstrap'  // Added Button to imports
-import PostScheduler from '../components/PostScheduler'
-
-const scheduledPosts = [
-  {
-    id: 1,
-    content: "Check out our new feature! #SocialPulse",
-    platform: "Twitter",
-    date: "2023-06-15 09:00",
-    status: "Scheduled"
-  },
-  {
-    id: 2,
-    content: "Summer sale starts today! 🎉",
-    platform: "Instagram",
-    date: "2023-06-16 12:00",
-    status: "Pending"
-  }
-]
+import { Row, Col, Card, Table, Button, Spinner } from 'react-bootstrap';
+import PostScheduler from '../components/PostScheduler';
+import { collection, query, where, onSnapshot } from 'firebase/firestore';
+import { db, auth } from '../firebase';
+import { useEffect, useState } from 'react';
 
 export default function Scheduler() {
+  const [scheduledPosts, setScheduledPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!auth.currentUser?.uid) return;
+
+    const q = query(
+      collection(db, 'scheduledPosts'),
+      where('userId', '==', auth.currentUser.uid),
+      where('status', 'in', ['scheduled', 'pending'])
+    );
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      setScheduledPosts(snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      })));
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
   return (
     <Row>
       <Col md={12}>
@@ -37,38 +46,42 @@ export default function Scheduler() {
             <Card.Title className="mb-0">Scheduled Posts</Card.Title>
           </Card.Header>
           <Card.Body>
-            <Table striped hover responsive>
-              <thead>
-                <tr>
-                  <th>Content</th>
-                  <th>Platform</th>
-                  <th>Scheduled Date</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {scheduledPosts.map(post => (
-                  <tr key={post.id}>
-                    <td>{post.content}</td>
-                    <td>{post.platform}</td>
-                    <td>{post.date}</td>
-                    <td>
-                      <span className={`badge bg-${post.status === 'Scheduled' ? 'success' : 'warning'}`}>
-                        {post.status}
-                      </span>
-                    </td>
-                    <td>
-                      <Button variant="outline-primary" size="sm">Edit</Button>
-                      <Button variant="outline-danger" size="sm" className="ms-2">Cancel</Button>
-                    </td>
+            {loading ? (
+              <Spinner animation="border" />
+            ) : (
+              <Table striped hover responsive>
+                <thead>
+                  <tr>
+                    <th>Content</th>
+                    <th>Platform</th>
+                    <th>Scheduled Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </Table>
+                </thead>
+                <tbody>
+                  {scheduledPosts.map(post => (
+                    <tr key={post.id}>
+                      <td>{post.content}</td>
+                      <td>{post.platform}</td>
+                      <td>{post.scheduledTime?.toDate().toLocaleString()}</td>
+                      <td>
+                        <span className={`badge bg-${post.status === 'scheduled' ? 'success' : 'warning'}`}>
+                          {post.status}
+                        </span>
+                      </td>
+                      <td>
+                        <Button variant="outline-primary" size="sm">Edit</Button>
+                        <Button variant="outline-danger" size="sm" className="ms-2">Cancel</Button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            )}
           </Card.Body>
         </Card>
       </Col>
     </Row>
-  )
+  );
 }
