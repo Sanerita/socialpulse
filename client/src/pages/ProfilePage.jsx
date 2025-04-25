@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Tab, Tabs, Image, Button, Form, Spinner, Alert } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { uploadBytes, ref, getDownloadURL } from 'firebase/storage';
 import { 
   faUserEdit, 
   faEnvelope, 
@@ -19,7 +20,7 @@ import UserPosts from '../components/UserPosts';
 import AnalyticsChart from '../components/AnalyticsChart';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { db, auth } from '../firebase';
-import { signOut } from 'firebase/auth';
+import { storage, signOut } from '../firebase';
 import { useNavigate } from 'react-router-dom';
 
 export default function ProfilePage() {
@@ -28,6 +29,8 @@ export default function ProfilePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [profilePictureUrl, setProfilePictureUrl] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -109,6 +112,32 @@ export default function ProfilePage() {
     }
   };
 
+  const handleFileChange = (event) => {
+    if (event.target.files[0]) {
+      setSelectedFile(event.target.files[0]);
+    }
+  };
+
+  const handleUpload = async () => {
+    try {
+      if (!selectedFile) return;
+      
+      const storageRef = ref(storage, `profilePictures/${auth.currentUser.uid}/profile.jpg`);
+      const uploadResult = await uploadBytes(storageRef, selectedFile);
+      const url = await getDownloadURL(uploadResult.ref);
+      
+      await updateDoc(doc(db, 'users', user.id), {
+        profileImage: url,
+      });
+      
+      setUser(prev => ({...prev, profileImage: url}));
+      setProfilePictureUrl(url);
+      setSelectedFile(null);
+    } catch (error) {
+      setError('Failed to upload profile picture');
+    }
+  };
+
   const handleLogout = async () => {
     try {
       await signOut(auth);
@@ -153,13 +182,29 @@ export default function ProfilePage() {
             {/* Profile Card */}
             <Card className="shadow-sm border-0">
               <Card.Body className="text-center">
-                <Image 
-                  src={user.profileImage || 'https://i.pravatar.cc/300'} 
-                  roundedCircle 
-                  width={150}
-                  height={150}
-                  className="border border-4 border-white shadow-sm mt-n5"
-                />
+                <div className='position-relative d-flex justify-content-center'>
+                  <Image 
+                    src={user.profileImage || 'https://i.pravatar.cc/300'} 
+                    roundedCircle 
+                    width={150}
+                    height={150}
+                    className="border border-4 border-white shadow-sm mt-n5"
+                  />
+                  {editMode && (
+                    <div className="position-absolute bottom-0 end-0">
+                      <Form.Group controlId="formFile" className="mb-3">
+                        <Form.Control 
+                          type="file" 
+                          onChange={handleFileChange} 
+                          accept="image/*" 
+                        />
+                      </Form.Group>
+                      <Button variant="primary" onClick={handleUpload} size="sm">
+                          Upload
+                      </Button>
+                    </div>
+                  )}
+                </div>
                 
                 {editMode ? (
                   <Form.Group className="mb-3 mt-3">
