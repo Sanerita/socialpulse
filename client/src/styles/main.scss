@@ -1,18 +1,20 @@
 // New syntax
 @use './variables' as *;
-@use './mixins' as mix;
+@use './mixins' as mix;  // Now this will work
 @use 'sass:color';
+@use 'sass:math';
 
 .btn {
   @include mix.rounded; // Namespaced mixin
   
   &-primary {
-    background: $primary-color; // Global variable
+    background: $primary; // Global variable
     &:hover {
-      background: color.adjust($primary-color, $lightness: -10%);
+      background: color.adjust($primary, $lightness: -10%);
     }
   }
 }
+
 
 body {
   background-color: var(--secondary);
@@ -182,7 +184,7 @@ body {
     border: none;
     
     &:hover, &:focus {
-      background-color: color.adjust($primary, $lightness: -10%);
+background-color: color.adjust($primary, $lightness: -10%);
 color: color.scale($secondary, $lightness: 20%);
       transform: translateY(-2px); // More pronounced hover
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

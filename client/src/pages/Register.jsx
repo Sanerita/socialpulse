@@ -76,26 +76,26 @@ export default function Register() {
   };
 
   return (
-    <Container className="auth-container">
-      <Row className="justify-content-center">
-        <Col md={8} lg={6} xl={5}>
-          <Card className="auth-card shadow">
-            <Card.Body className="p-4 p-md-5">
+    <Container className="d-flex align-items-center justify-content-center" style={{ minHeight: '100vh' }}>
+      <Row className="w-100 justify-content-center">
+        <Col xs={12} md={8} lg={6} xl={5}>
+          <Card className="shadow-lg border-0">
+            <Card.Body className="p-4 p-lg-5">
               <div className="text-center mb-4">
                 <h2 className="fw-bold mb-3" style={{ color: 'var(--primary)' }}>
                   Create your <span style={{ color: 'var(--dark)' }}>SocialPulse</span> account
                 </h2>
-                <p className="text-muted">Start managing your social media like a pro</p>
+                <p className="text-muted mb-4">Start managing your social media like a pro</p>
               </div>
 
               {error && <Alert variant="danger" className="text-center">{error}</Alert>}
 
               <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3">
-                  <Form.Label>Full Name</Form.Label>
+                  <Form.Label className="fw-semibold">Full Name</Form.Label>
                   <div className="input-group">
-                    <span className="input-group-text">
-                      <FontAwesomeIcon icon={faUser} />
+                    <span className="input-group-text bg-light">
+                      <FontAwesomeIcon icon={faUser} className="text-muted" />
                     </span>
                     <Form.Control
                       type="text"
@@ -103,15 +103,16 @@ export default function Register() {
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       required
+                      className="py-2"
                     />
                   </div>
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                  <Form.Label>Email Address</Form.Label>
+                  <Form.Label className="fw-semibold">Email Address</Form.Label>
                   <div className="input-group">
-                    <span className="input-group-text">
-                      <FontAwesomeIcon icon={faEnvelope} />
+                    <span className="input-group-text bg-light">
+                      <FontAwesomeIcon icon={faEnvelope} className="text-muted" />
                     </span>
                     <Form.Control
                       type="email"
@@ -119,15 +120,16 @@ export default function Register() {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
+                      className="py-2"
                     />
                   </div>
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                  <Form.Label>Password</Form.Label>
+                  <Form.Label className="fw-semibold">Password</Form.Label>
                   <div className="input-group">
-                    <span className="input-group-text">
-                      <FontAwesomeIcon icon={faLock} />
+                    <span className="input-group-text bg-light">
+                      <FontAwesomeIcon icon={faLock} className="text-muted" />
                     </span>
                     <Form.Control
                       type="password"
@@ -136,18 +138,19 @@ export default function Register() {
                       onChange={(e) => setPassword(e.target.value)}
                       minLength="6"
                       required
+                      className="py-2"
                     />
                   </div>
-                  <Form.Text className="text-muted">
+                  <Form.Text className="text-muted small">
                     At least 6 characters
                   </Form.Text>
                 </Form.Group>
 
                 <Form.Group className="mb-4">
-                  <Form.Label>Confirm Password</Form.Label>
+                  <Form.Label className="fw-semibold">Confirm Password</Form.Label>
                   <div className="input-group">
-                    <span className="input-group-text">
-                      <FontAwesomeIcon icon={faLock} />
+                    <span className="input-group-text bg-light">
+                      <FontAwesomeIcon icon={faLock} className="text-muted" />
                     </span>
                     <Form.Control
                       type="password"
@@ -156,6 +159,7 @@ export default function Register() {
                       onChange={(e) => setConfirmPassword(e.target.value)}
                       minLength="6"
                       required
+                      className="py-2"
                     />
                   </div>
                 </Form.Group>
@@ -163,8 +167,9 @@ export default function Register() {
                 <Button 
                   variant="primary" 
                   type="submit" 
-                  className="w-100 mb-3" 
+                  className="w-100 py-2 mb-3 fw-semibold" 
                   disabled={loading}
+                  style={{ height: '45px' }}
                 >
                   {loading ? (
                     <Spinner animation="border" size="sm" />
@@ -176,8 +181,8 @@ export default function Register() {
                 </Button>
 
                 <div className="text-center small text-muted mt-4">
-                  By registering, you agree to our 
-                  <Link to="/terms" className="text-primary text-decoration-none ms-1">
+                  By registering, you agree to our{' '}
+                  <Link to="/terms" className="text-primary text-decoration-none">
                     Terms of Service
                   </Link>
                 </div>

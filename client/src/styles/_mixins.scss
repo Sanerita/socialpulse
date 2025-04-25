@@ -1,0 +1,37 @@
+// _mixins.scss
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  @mixin box-shadow($level: 1) {
+    @if $level == 1 {
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+    } @else if $level == 2 {
+      box-shadow: 0 4px 6px rgba(0,0,0,0.16);
+    } @else if $level == 3 {
+      box-shadow: 0 10px 20px rgba(0,0,0,0.19);
+    }
+  }
+  
+  @mixin transition($property: all, $duration: 0.3s, $timing: ease) {
+    transition: $property $duration $timing;
+  }
+  
+  @mixin responsive($breakpoint) {
+    @if $breakpoint == phone {
+      @media (max-width: 600px) { @content }
+    }
+    @else if $breakpoint == tablet {
+      @media (max-width: 900px) { @content }
+    }
+    @else if $breakpoint == desktop {
+      @media (min-width: 1200px) { @content }
+    }
+  }
+  
+  @mixin rounded($border-radius: 5px) {
+    border-radius: $border-radius;
+  }
+  
