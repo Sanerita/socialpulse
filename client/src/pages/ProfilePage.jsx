@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Tab, Tabs, Image, Button, Form, Spinner, Alert } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { uploadBytes, ref, getDownloadURL } from 'firebase/storage';
 import { 
   faUserEdit, 
   faEnvelope, 
@@ -19,8 +18,9 @@ import {
 import UserPosts from '../components/UserPosts';
 import AnalyticsChart from '../components/AnalyticsChart';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
-import { db, auth } from '../firebase';
-import { storage, signOut } from '../firebase';
+import { getAuth, signOut } from 'firebase/auth';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { db, auth, storage } from '../firebase';
 import { useNavigate } from 'react-router-dom';
 
 export default function ProfilePage() {
@@ -34,11 +34,12 @@ export default function ProfilePage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!auth.currentUser?.uid) return;
+    const currentUser = getAuth().currentUser;
+    if (!currentUser?.uid) return;
 
     const fetchUserData = async () => {
       try {
-        const docRef = doc(db, 'users', auth.currentUser.uid);
+        const docRef = doc(db, 'users', currentUser.uid);
         const docSnap = await getDoc(docRef);
         
         if (docSnap.exists()) {
@@ -122,7 +123,7 @@ export default function ProfilePage() {
     try {
       if (!selectedFile) return;
       
-      const storageRef = ref(storage, `profilePictures/${auth.currentUser.uid}/profile.jpg`);
+      const storageRef = ref(storage, `profilePictures/${getAuth().currentUser.uid}/profile.jpg`);
       const uploadResult = await uploadBytes(storageRef, selectedFile);
       const url = await getDownloadURL(uploadResult.ref);
       
@@ -140,7 +141,7 @@ export default function ProfilePage() {
 
   const handleLogout = async () => {
     try {
-      await signOut(auth);
+      await signOut(getAuth());
       navigate('/login');
     } catch (err) {
       console.error("Error signing out: ", err);
